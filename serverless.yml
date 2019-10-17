@@ -1,0 +1,18 @@
+service: quadratic-voting
+provider:
+  name: aws
+  runtime: nodejs10.x
+  stage: ${opt:stage, 'dev'}
+  region: ap-southeast-1
+functions:
+  hello:
+    description: Says hello
+    handler: src/handler.hello
+    events:
+      - http:
+          path: /hello
+          method: get
+          cors: true
+plugins:
+  - serverless-dynamodb-local
+  - serverless-offline

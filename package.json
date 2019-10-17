@@ -1,0 +1,18 @@
+{
+  "name": "quadratic-voting",
+  "version": "1.0.0",
+  "description": "",
+  "main": "handler.js",
+  "scripts": {
+    "dev": "sls offline start"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "serverless-dynamodb-local": "^0.2.38",
+    "serverless-offline": "^5.12.0"
+  },
+  "dependencies": {
+    "middy": "^0.30.3"
+  }
+}
