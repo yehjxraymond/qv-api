@@ -1,6 +1,6 @@
 const uuid = require("uuid/v4");
 const useMiddleware = require("./utils/middleware");
-const { TABLE_NAME } = require("./config");
+const { DB_ELECTION_TABLE_NAME, DB_VOTE_TABLE_NAME } = require("./config");
 const db = require("./db");
 
 const successResult = result => ({
@@ -8,13 +8,13 @@ const successResult = result => ({
   body: JSON.stringify(result)
 });
 
-const createElection = async event => {
+const postElection = async event => {
   const body = JSON.parse(event.body);
   const id = uuid();
   // TODO Add validator
   await db
     .put({
-      TableName: TABLE_NAME,
+      TableName: DB_ELECTION_TABLE_NAME,
       Item: {
         id,
         ...body
@@ -22,23 +22,44 @@ const createElection = async event => {
       }
     })
     .promise();
+  // TODO return full election status
   return successResult({ id });
 };
 
-module.exports.createElection = useMiddleware(createElection);
+module.exports.postElection = useMiddleware(postElection);
 
 const getElection = async event => {
   const { id } = event.pathParameters;
   const document = await db
     .get({
-      TableName: TABLE_NAME,
+      TableName: DB_ELECTION_TABLE_NAME,
       Key: {
         id
       }
     })
     .promise();
+  // TODO add vote status
   return successResult(document.Item);
 };
 
 module.exports.getElection = useMiddleware(getElection);
 
+const postVote = async event => {
+  const body = JSON.parse(event.body);
+  const id = uuid();
+  // TODO Add validator
+  await db
+    .put({
+      TableName: DB_VOTE_TABLE_NAME,
+      Item: {
+        id,
+        ...body
+        // TODO Add ttl
+      }
+    })
+    .promise();
+  // TODO return full election status
+  return successResult({ id });
+};
+
+module.exports.postVote = useMiddleware(postVote);

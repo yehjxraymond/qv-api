@@ -32,7 +32,7 @@ Output:
 
 ```json
 {
-  "id": "uuid-vote",
+  "id": "uuid-election",
   "owner": "uuid-user",
   "config": {
     "name": "Name of vote",
@@ -74,7 +74,9 @@ Input:
 
 ```json
 {
-  "id": "uuid-user",
+  "id": "uuid-vote",
+  "user": "uuid-user",
+  "election": "uuid-election",
   "votes": [
     {
       "decisionId": 1,

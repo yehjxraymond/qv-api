@@ -1,6 +1,6 @@
 {
   "Table": {
-    "TableName": "quadratic-voting",
+    "TableName": "quadratic-voting-election-dev",
     "KeySchema": [
       {
         "AttributeName": "id",

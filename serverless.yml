@@ -5,7 +5,8 @@ provider:
   stage: ${opt:stage, 'dev'}
   region: ap-southeast-1
   environment:
-    DB_TABLE_NAME: quadrativ-voting-${opt:stage, self:provider.stage}
+    DB_ELECTION_TABLE_NAME: quadratic-voting-election-${opt:stage, self:provider.stage}
+    DB_VOTE_TABLE_NAME: quadratic-voting-vote-${opt:stage, self:provider.stage}
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -15,10 +16,19 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DB_TABLE_NAME}"
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DB_ELECTION_TABLE_NAME}"
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DB_VOTE_TABLE_NAME}"
 resources:
   Resources:
-    DocsDynamoDbTable:
+    ElectionDynamoDbTable:
       Type: "AWS::DynamoDB::Table"
       DeletionPolicy: Retain
       Properties:
@@ -31,13 +41,30 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
-        TableName: ${self:provider.environment.DB_TABLE_NAME}
+        TableName: ${self:provider.environment.DB_ELECTION_TABLE_NAME}
+        TimeToLiveSpecification:
+          AttributeName: ttl
+          Enabled: true
+    VoteDynamoDbTable:
+      Type: "AWS::DynamoDB::Table"
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.DB_VOTE_TABLE_NAME}
         TimeToLiveSpecification:
           AttributeName: ttl
           Enabled: true
 functions:
-  createElection:
-    handler: src/handler.createElection
+  postElection:
+    handler: src/handler.postElection
     events:
       - http:
           path: /election
