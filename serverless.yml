@@ -81,6 +81,13 @@ functions:
               paths:
                 id: true
           cors: true
+  postVote:
+    handler: src/handler.postVote
+    events:
+      - http:
+          path: /vote
+          method: post
+          cors: true
 custom:
   dynamodb:
     stages:

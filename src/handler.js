@@ -2,7 +2,7 @@ const uuid = require("uuid/v4");
 const useMiddleware = require("./utils/middleware");
 const { DB_ELECTION_TABLE_NAME, DB_VOTE_TABLE_NAME } = require("./config");
 const db = require("./db");
-const { validateElectionInput } = require("./validator");
+const { validateElectionInput, validateVoteInput } = require("./validator");
 
 const successResult = result => ({
   statusCode: 200,
@@ -50,8 +50,8 @@ module.exports.getElection = useMiddleware(getElection);
 
 const postVote = async event => {
   const body = JSON.parse(event.body);
+  validateVoteInput(body);
   const id = uuid();
-  // TODO Add validator
   // TODO Check that election exist (and has not concluded)
   // TODO Check that vote has not been casted by user
   // TODO Check that user did not exceed budget

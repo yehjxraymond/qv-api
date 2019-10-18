@@ -23,6 +23,24 @@ const electionInput = Joi.object({
   candidates: candidates.required()
 });
 
-const validateElectionInput = input => Joi.assert(input, electionInput);
+const vote = Joi.object({
+  candidate: Joi.number()
+    .integer()
+    .min(0)
+    .required(),
+  vote: Joi.number()
+    .integer()
+    .min(0)
+    .required()
+});
 
-module.exports = { validateElectionInput };
+const voteInput = Joi.object({
+  user: Joi.string().required(),
+  election: Joi.string().required(),
+  votes: Joi.array().items(vote)
+});
+
+const validateElectionInput = input => Joi.assert(input, electionInput);
+const validateVoteInput = input => Joi.assert(input, voteInput);
+
+module.exports = { validateElectionInput, validateVoteInput };

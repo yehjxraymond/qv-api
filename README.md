@@ -13,7 +13,7 @@ Input:
     "name": "Name of vote",
     "budget": 99
   },
-  "decisions": [
+  "candidates": [
     {
       "title": "Decision 1",
       "description": "Long description 1"
@@ -38,14 +38,12 @@ Output:
     "name": "Name of vote",
     "budget": 99
   },
-  "decisions": [
+  "candidates": [
     {
-      "id": 1,
       "title": "Decision 1",
       "description": "Long description 1"
     },
     {
-      "id": 2,
       "title": "Decision 2",
       "description": "Long description 2"
     }
@@ -74,17 +72,16 @@ Input:
 
 ```json
 {
-  "id": "uuid-vote",
   "user": "uuid-user",
   "election": "uuid-election",
   "votes": [
     {
-      "decisionId": 1,
+      "candidate": 0,
       "vote": 2
     },
     {
-      "decisionId": 2,
-      "vote": 2
+      "candidate": 1,
+      "vote": 0
     }
   ]
 }
