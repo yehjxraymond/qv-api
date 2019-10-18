@@ -4,15 +4,66 @@ provider:
   runtime: nodejs10.x
   stage: ${opt:stage, 'dev'}
   region: ap-southeast-1
+  environment:
+    DB_TABLE_NAME: quadrativ-voting-${opt:stage, self:provider.stage}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DB_TABLE_NAME}"
+resources:
+  Resources:
+    DocsDynamoDbTable:
+      Type: "AWS::DynamoDB::Table"
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.DB_TABLE_NAME}
+        TimeToLiveSpecification:
+          AttributeName: ttl
+          Enabled: true
 functions:
-  hello:
-    description: Says hello
-    handler: src/handler.hello
+  createElection:
+    handler: src/handler.createElection
     events:
       - http:
-          path: /hello
-          method: get
+          path: /election
+          method: post
           cors: true
+  getElection:
+    handler: src/handler.getElection
+    events:
+      - http:
+          path: /election/{id}
+          method: get
+          request:
+            parameters:
+              paths:
+                id: true
+          cors: true
+custom:
+  dynamodb:
+    stages:
+      - dev
+    start:
+      port: 8000
+      inMemory: true
+      migrate: true
+    migration:
+      dir: offline/migrations
 plugins:
   - serverless-dynamodb-local
   - serverless-offline

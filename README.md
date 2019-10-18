@@ -2,18 +2,16 @@
 
 ## Functions
 
-### Create new vote
+### Create new election
 
 Input:
 
 ```json
 {
   "owner": "uuid-user",
-  "voterConfig": {
-    "budget": 99
-  },
   "config": {
-    "name": "Name of vote"
+    "name": "Name of vote",
+    "budget": 99
   },
   "decisions": [
     {
@@ -28,13 +26,18 @@ Input:
 }
 ```
 
-### Get status of a vote
+### Get status of a election
 
 Output:
 
 ```json
 {
   "id": "uuid-vote",
+  "owner": "uuid-user",
+  "config": {
+    "name": "Name of vote",
+    "budget": 99
+  },
   "decisions": [
     {
       "id": 1,
@@ -65,7 +68,7 @@ Output:
 }
 ```
 
-### Submit votes
+### Cast votes
 
 Input:
 
@@ -83,4 +86,20 @@ Input:
     }
   ]
 }
+```
+
+## Dynamodb
+
+The development environment uses [serverless-dynamodb-local](https://www.npmjs.com/package/serverless-dynamodb-local) to emulate the dynamodb in AWS.
+
+Install dynamodb locally
+
+```
+sls dynamodb install
+```
+
+Start dynamodb
+
+```
+sls dynamodb start
 ```
