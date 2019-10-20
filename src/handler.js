@@ -32,9 +32,35 @@ const postElection = async event => {
 
 module.exports.postElection = useMiddleware(postElection);
 
-const getElection = async event => {
-  const { id } = event.pathParameters;
-  const document = await db
+const getVotesForElection = async electionId => {
+  const results = await db
+    .scan({
+      TableName: DB_VOTE_TABLE_NAME,
+      FilterExpression: "election = :election",
+      ExpressionAttributeValues: {
+        ":election": electionId
+      }
+    })
+    .promise();
+  return results.Items;
+};
+
+const getElectionVoteByUser = async (voterId, electionId) => {
+  const results = await db
+    .scan({
+      TableName: DB_VOTE_TABLE_NAME,
+      FilterExpression: "voter = :voterId and election = :electionId",
+      ExpressionAttributeValues: {
+        ":voterId": voterId,
+        ":electionId": electionId
+      }
+    })
+    .promise();
+  return results.Items;
+};
+
+const getElectionById = async id => {
+  const result = await db
     .get({
       TableName: DB_ELECTION_TABLE_NAME,
       Key: {
@@ -42,8 +68,17 @@ const getElection = async event => {
       }
     })
     .promise();
-  // TODO add vote status
-  return successResult(document.Item);
+  return result.Item;
+};
+
+const getElection = async event => {
+  const { id } = event.pathParameters;
+  const election = await getElectionById(id);
+  const votes = await getVotesForElection(id);
+  
+  // Add vote results
+  const result = { ...election, votes };
+  return successResult(result);
 };
 
 module.exports.getElection = useMiddleware(getElection);
@@ -52,9 +87,16 @@ const postVote = async event => {
   const body = JSON.parse(event.body);
   validateVoteInput(body);
   const id = uuid();
-  // TODO Check that election exist (and has not concluded)
-  // TODO Check that vote has not been casted by user
-  // TODO Check that user did not exceed budget
+
+  // Check that election exist
+  const election = await getElectionById(body.election);
+  if (!election) throw new Error("Election does not exist");
+
+  // Check that user has not casted vote
+  const votesByUser = await getElectionVoteByUser(body.voter, body.election);
+  if (votesByUser.length > 0) throw new Error("User has already voted");
+  
+  // TODO Check vote entry
   await db
     .put({
       TableName: DB_VOTE_TABLE_NAME,

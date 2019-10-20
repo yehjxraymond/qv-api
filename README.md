@@ -50,7 +50,7 @@ Output:
   ],
   "votes": [
     {
-      "voterId": "uuid-user",
+      "voter": "uuid-user",
       "votes": [
         {
           "decisionId": 1,
@@ -72,7 +72,7 @@ Input:
 
 ```json
 {
-  "user": "uuid-user",
+  "voter": "uuid-user",
   "election": "uuid-election",
   "votes": [
     {

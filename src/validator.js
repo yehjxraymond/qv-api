@@ -35,7 +35,7 @@ const vote = Joi.object({
 });
 
 const voteInput = Joi.object({
-  user: Joi.string().required(),
+  voter: Joi.string().required(),
   election: Joi.string().required(),
   votes: Joi.array().items(vote)
 });

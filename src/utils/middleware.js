@@ -5,9 +5,10 @@ const errorWrapper = fn => async (...args) => {
   try {
     return await fn(...args);
   } catch (error) {
+    console.error(error);
     return {
       statusCode: 400,
-      body: JSON.stringify({ error })
+      body: JSON.stringify({ error: error.message ? error.message : error })
     };
   }
 };
