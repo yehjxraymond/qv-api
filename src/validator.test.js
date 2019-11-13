@@ -26,7 +26,7 @@ describe("validateElectionInput", () => {
 describe("validateVoteInput", () => {
   it("does not throw for valid input", () => {
     const input = {
-      user: "uuid-user",
+      voter: "uuid-user",
       election: "uuid-election",
       votes: [
         {

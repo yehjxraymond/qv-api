@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "dev": "sls offline start",
-    "deploy": "sls deploy --profile personal"
+    "deploy": "sls deploy --aws-profile personal"
   },
   "author": "",
   "license": "ISC",
