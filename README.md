@@ -11,7 +11,18 @@ Input:
   "owner": "uuid-user",
   "config": {
     "name": "Name of vote",
-    "budget": 99
+    "budget": 99,
+    "private": true,
+    "invite": [
+      {
+        "name": "Person A",
+        "email": "persona@gmail.com"
+      },
+      {
+        "name": "Person B",
+        "email": "personb@gmail.com"
+      }
+    ]
   },
   "candidates": [
     {

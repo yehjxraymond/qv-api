@@ -2,19 +2,30 @@ const Joi = require("@hapi/joi");
 
 const candidate = Joi.object({
   title: Joi.string().required(),
-  description: Joi.string()
+  description: Joi.string().allow("")
 });
 
 const candidates = Joi.array()
   .items(candidate)
   .min(2);
 
+const invite = Joi.object({
+  name: Joi.string().allow(""),
+  email: Joi.string()
+    .email()
+    .required()
+});
+
+const inviteList = Joi.array().items(invite);
+
 const config = Joi.object({
   name: Joi.string().required(),
   budget: Joi.number()
     .integer()
     .min(1)
-    .required()
+    .required(),
+  private: Joi.boolean(),
+  invite: inviteList
 });
 
 const electionInput = Joi.object({
@@ -26,11 +37,9 @@ const electionInput = Joi.object({
 const vote = Joi.object({
   candidate: Joi.number()
     .integer()
-    .min(0)
     .required(),
   vote: Joi.number()
     .integer()
-    .min(0)
     .required()
 });
 
