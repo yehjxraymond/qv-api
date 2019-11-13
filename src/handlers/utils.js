@@ -6,4 +6,7 @@ const successResult = result => ({
 const DEFAULT_TTL = 60 * 60 * 24; // 1 day
 const expiryDate = () => Math.floor(Date.now() / 1000) + DEFAULT_TTL;
 
-module.exports = { successResult, expiryDate };
+const isVoter = (election, user) =>
+  election.config.invite.some(invited => invited.voterId === user);
+
+module.exports = { successResult, expiryDate, isVoter };

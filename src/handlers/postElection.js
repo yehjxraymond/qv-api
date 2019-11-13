@@ -7,6 +7,8 @@ const { validateElectionInput } = require("../validator");
 const formatNewElection = election => {
   validateElectionInput(election);
   const id = uuid();
+  if (!election.config.private && election.config.invite)
+    throw new Error("Public elections cannot have invite list");
   const newElection = { ...election, id, ttl: expiryDate() };
   if (newElection.config.invite) {
     newElection.config.invite = newElection.config.invite.map(invite => ({
