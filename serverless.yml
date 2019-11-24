@@ -99,5 +99,6 @@ custom:
     migration:
       dir: offline/migrations
 plugins:
+  - serverless-dotenv-plugin
   - serverless-dynamodb-local
   - serverless-offline

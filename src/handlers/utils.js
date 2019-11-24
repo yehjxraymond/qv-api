@@ -3,7 +3,7 @@ const successResult = result => ({
   body: JSON.stringify(result)
 });
 
-const DEFAULT_TTL = 60 * 60 * 24; // 1 day
+const DEFAULT_TTL = 60 * 60 * 24 * 7; // 1 week
 const expiryDate = () => Math.floor(Date.now() / 1000) + DEFAULT_TTL;
 
 const isVoter = (election, user) =>
