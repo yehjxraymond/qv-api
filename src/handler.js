@@ -1,3 +1,4 @@
+require("dotenv").config();
 const useMiddleware = require("./utils/middleware");
 const { postElectionHandler } = require("./handlers/postElection");
 const { getElectionHandler } = require("./handlers/getElection");

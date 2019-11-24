@@ -13,6 +13,7 @@ Input:
     "name": "Name of vote",
     "budget": 99,
     "private": true,
+    "notifyInvites": true,
     "invite": [
       {
         "name": "Person A",

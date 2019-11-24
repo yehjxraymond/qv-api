@@ -25,6 +25,7 @@ const config = Joi.object({
     .min(1)
     .required(),
   private: Joi.boolean(),
+  notifyInvites: Joi.boolean(),
   invite: inviteList
 });
 

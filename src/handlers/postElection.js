@@ -3,6 +3,7 @@ const db = require("../db");
 const { successResult, expiryDate } = require("./utils");
 const { DB_ELECTION_TABLE_NAME } = require("../config");
 const { validateElectionInput } = require("../validator");
+const sendMail = require("../mailer");
 
 const formatNewElection = election => {
   validateElectionInput(election);
@@ -20,6 +21,23 @@ const formatNewElection = election => {
   return newElection;
 };
 
+const processEmails = election => {
+  if (
+    !election.config.private ||
+    !election.config.notifyInvites ||
+    !election.config.invite
+  )
+    return;
+  election.config.invite.forEach(invitee => {
+    sendMail({
+      to: invitee.email,
+      title: election.config.name,
+      uuid: election.id,
+      path: `/vote?election=${election.id}&userId=${invitee.voterId}`
+    });
+  });
+};
+
 const postElectionHandler = async event => {
   const body = JSON.parse(event.body);
   const election = formatNewElection(body);
@@ -29,6 +47,7 @@ const postElectionHandler = async event => {
       Item: election
     })
     .promise();
+  processEmails(election);
   return successResult(election);
 };
 
