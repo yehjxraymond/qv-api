@@ -31,6 +31,7 @@ const processEmails = election => {
   election.config.invite.forEach(invitee => {
     sendMail({
       to: invitee.email,
+      name: invitee.name,
       title: election.config.name,
       uuid: election.id,
       path: `/vote?election=${election.id}&userId=${invitee.voterId}`

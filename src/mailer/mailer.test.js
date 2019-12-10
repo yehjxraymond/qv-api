@@ -32,6 +32,7 @@ describe("mailer", () => {
   it("sends email", async () => {
     const emailReceipt = await etherealMailer({
       to: account.user,
+      name: "Mr Example",
       title: "ABC Nomination",
       path: `/election?election=ELECTION_ID&userId=VOTER_ID`
     });
