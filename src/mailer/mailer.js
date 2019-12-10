@@ -19,9 +19,6 @@ You may vote at ${link}.
   You're invited to vote in ${title}.
 </p>
   You may vote at <a href=${link}>${link}</a>.
-<p>
-  <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${link}" />
-</p>
 `
   });
 };
