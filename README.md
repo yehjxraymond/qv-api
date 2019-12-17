@@ -115,6 +115,40 @@ Output:
 }
 ```
 
+#### E2E Encryption
+
+```json
+{
+  "id": "uuid-election",
+  "owner": "uuid-user",
+  "config": {
+    "name": "Name of vote",
+    "budget": 99
+  },
+  "candidates": [
+    {
+      "title": "Decision 1",
+      "description": "Long description 1"
+    },
+    {
+      "title": "Decision 2",
+      "description": "Long description 2"
+    }
+  ],
+  "votes": [
+    {
+      "voter": "uuid-user",
+      "encryptedVote": {
+        "iv": "dce31988c0a1d22d42f356bac699c9bf",
+        "ciphertext": "72a22c7b52ad4511bdb70125ced9396afe8278525be423d6d2bbe1da018c49a2a20167fe5a015bb6283516548b4a46d1298690dc73ea8bc7332a5a02b58cc6d9",
+        "mac": "47737e21e1b9aa1b972c54cbfb9da5b59ee0cf2a58802182db616f6394363581",
+        "ephemPublicKey": "0487e5dbda84ef30cf0b8b72a38e9b8a419d9a64ccb3adc42731126954b59104069ce952b71f947bedbf961a09f45f4cc83e93a38884d45f730d7f6fe8f2e93171"
+      }
+    }
+  ]
+}
+```
+
 ### Cast votes
 
 Input:
