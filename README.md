@@ -27,7 +27,7 @@
 }
 ```
 
-#### Simple Private Election
+#### Private Election with Notify Invite
 
 ```json
 {
