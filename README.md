@@ -4,7 +4,30 @@
 
 ### Create new election
 
-Input:
+#### Public Election
+
+```json
+{
+  "owner": "uuid-user",
+  "config": {
+    "name": "Name of vote",
+    "budget": 99,
+    "private": false
+  },
+  "candidates": [
+    {
+      "title": "Decision 1",
+      "description": "Long description 1"
+    },
+    {
+      "title": "Decision 2",
+      "description": "Long description 2"
+    }
+  ]
+}
+```
+
+#### Simple Private Election
 
 ```json
 {
@@ -38,7 +61,7 @@ Input:
 }
 ```
 
-#### E2E Encrypted Election
+#### Private Vote with Encrypted Votes
 
 ```json
 {
@@ -48,9 +71,7 @@ Input:
     "budget": 99,
     "private": true,
     "notifyInvites": true,
-    "encryption": {
-      "publicKey": "044f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa385b6b1b8ead809ca67454d9683fcf2ba03456d6fe2c4abe2b07f0fbdbb2f1c1"
-    },
+    "encryptionKey": "044f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa385b6b1b8ead809ca67454d9683fcf2ba03456d6fe2c4abe2b07f0fbdbb2f1c1",
     "invite": [
       {
         "name": "Person A",
@@ -77,7 +98,7 @@ Input:
 
 ### Get status of a election
 
-Output:
+#### Cleartext Votes Status
 
 ```json
 {
@@ -115,7 +136,7 @@ Output:
 }
 ```
 
-#### E2E Encryption
+#### Encrypted Votes Status
 
 ```json
 {
@@ -151,7 +172,7 @@ Output:
 
 ### Cast votes
 
-Input:
+#### Cleartext Vote
 
 ```json
 {
@@ -170,7 +191,7 @@ Input:
 }
 ```
 
-#### E2E Encryption
+#### Encrypted Vote
 
 ```json
 {

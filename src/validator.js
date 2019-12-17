@@ -25,6 +25,7 @@ const config = Joi.object({
     .min(1)
     .required(),
   private: Joi.boolean(),
+  encryptionKey: Joi.string(),
   notifyInvites: Joi.boolean(),
   invite: inviteList
 });
@@ -44,10 +45,18 @@ const vote = Joi.object({
     .required()
 });
 
+const encryptedVote = Joi.object({
+  iv: Joi.string().required(),
+  ciphertext: Joi.string().required(),
+  mac: Joi.string().required(),
+  ephemPublicKey: Joi.string().required()
+});
+
 const voteInput = Joi.object({
   voter: Joi.string().required(),
   election: Joi.string().required(),
-  votes: Joi.array().items(vote)
+  votes: Joi.array().items(vote),
+  encryptedVote
 });
 
 const validateElectionInput = input => Joi.assert(input, electionInput);
