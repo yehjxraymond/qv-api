@@ -47,3 +47,25 @@ describe("publicKeyFromPrivateKey", () => {
     expect(publicKeyFromPrivateKey(samplePrivateKey)).toBe(samplePublicKey);
   });
 });
+
+describe("decryptStringWithPrivateKey", () => {
+  it("should decrypt vote result", async () => {
+    const sampleVote = {
+      iv: "4e9327dcc3e4ffd6ced17a90629f7fe2",
+      ciphertext:
+        "100b332bd4917d1c4bd41fb4e5ad3aaa2c733d2c6a2d049c2cfcc16409916cbe74d160665cd90b0273f92f0c1e76530a72362ff8ba8a42e18cf424f4251ae148",
+      mac: "c604303a28678b3f0dfed2d4324ea30d81bde8dfce65562e6047f7b8f7bb1ad1",
+      ephemPublicKey:
+        "041bb4dd587edc551e3ba33d37dcef07b83b4be8bd969884ec0c6c6a4e341687e26c3e077132d144eaa9184b319f0345b2769b52f663c3976b65e9493118313efb"
+    };
+    const votesStr = await decryptStringWithPrivateKey(
+      sampleVote,
+      samplePrivateKey
+    );
+    const votes = JSON.parse(votesStr);
+    expect(votes).toEqual([
+      { candidate: 0, vote: 2 },
+      { candidate: 1, vote: -2 }
+    ]);
+  });
+});
