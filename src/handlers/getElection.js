@@ -11,7 +11,7 @@ const sanitiseOutput = (election, requestor) => {
       id: election.id,
       ttl: election.ttl,
       candidates: election.candidates,
-      config: pick(election.config, ["name", "private", "budget"])
+      config: pick(election.config, ["name", "private", "budget", "encryptionKey"])
     };
   throw new Error("You may not view this private election");
 };
