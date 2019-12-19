@@ -59,8 +59,13 @@ const postVoteHandler = async event => {
   const election = await getElectionById(body.election);
   if (!election) throw new Error("Election does not exist");
 
-  // Check vote budget
-  validateVote(body.votes, election);
+  // Check vote budget (if votes are not encrypted)
+  if (election.config.encryptionKey) {
+    if (body.votes) throw new Error("Invalid input 'votes'");
+  } else {
+    if (body.encryptedVote) throw new Error("Invalid input 'encryptedVote'");
+    validateVote(body.votes, election);
+  }
 
   // Check that user can cast vote
   const eligible = canCastVote(election, voterId);
