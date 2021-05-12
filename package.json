@@ -21,7 +21,7 @@
     "eccrypto": "^1.1.2",
     "jest": "^24.9.0",
     "middy": "^0.30.3",
-    "nodemailer": "^6.3.1",
+    "nodemailer": "^6.4.16",
     "serverless-dotenv-plugin": "^2.1.1"
   },
   "jest": {
