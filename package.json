@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@hapi/joi": "^16.1.7",
-    "aws-sdk": "^2.578.0",
+    "aws-sdk": "^2.814.0",
     "dotenv": "^8.2.0",
     "eccrypto": "^1.1.2",
     "jest": "^24.9.0",
